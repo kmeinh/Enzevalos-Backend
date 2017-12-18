@@ -27,8 +27,8 @@ app.get('/test', (req, res) => {
     res.send('{\'ok\': true}')
 })
 
-app.post('/connection/:accessId', (req, res) => {
-    
+function createAccess(req, res) {
+
     var accessId = req.params.accessId
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     var userAgent = req.get('User-Agent')
@@ -73,7 +73,15 @@ app.post('/connection/:accessId', (req, res) => {
             })
         }
     })
+}
+
+app.post('/connection/:accessId', (req, res) => {
+    createAccess(req, res)
 })
+
+app.get('/c_connection/:accessId', (req, res) => {
+    createAccess(req, res)
+});
 
 app.get('/connection/:accessId', (req, res) => {
 
